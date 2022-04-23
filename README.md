@@ -1,2 +1,2 @@
 # simple-bash-commands
-later
+Helpfull commands from the interweb, used sometimes. Maybe it helps you too
