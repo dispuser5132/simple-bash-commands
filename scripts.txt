@@ -50,3 +50,6 @@ $rhash --md5 -p '%h,%p\n' -r /home/
 
 # Delete empty folders:
 $find . -empty -type d -delete
+
+# Replace string in txt file:
+sed -i 's/oldstring/newstring/g' FILENAME
