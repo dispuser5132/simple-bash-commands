@@ -1,0 +1,52 @@
+#Rename:
+$find ./* -depth -exec rename '.PDF' '.pdf' {} \;
+rename -n 's/\Oldname/\Newname/' **/*
+
+# find in folder "Documents", file  "oldname*" and rename to "newname*"
+$find ./Documents* -depth -exec rename 'oldname' 'newname' {} \;
+
+#Move files with specific string:
+$find . -name '*foo*' -exec mv {} BAR/ \;
+$find . -name '*.mp3' -exec mv -t BestMusicAllTime/ {} +
+
+#office helper:
+="find . -depth -exec rename "&C2&" "&D2&" {} \;"
+="find . -depth -exec rename '"&O88&"' '"&V88&"' {} \;"
+="find . -depth -exec rename '"&O3&"' '"&V3&"' {} \;"&" && mkdir '"&P3&"'"
+="mkdir '"&P153&"'"&"; mv '"&O153&".pdf' '"&P153&"'/'"&V153&".pdf' "
+="find "&L213&"/ -depth -exec rename '"&T213&".pdf' '"&Y213&".pdf' {} \ ;"&" mkdir "&L213&"/'"&U213&"'"
+#C2 oldname, D2 newname
+
+#List file tree:
+$tree -iLn 
+$tree -if --prune
+
+#Count pages pdf file:
+$for i in *.pdf; do pdfinfo "$i" | grep "^Pages:"; done | awk '{s+=$2} END {print s}'
+$expr $( echo -n 0; parallel "pdfinfo {} |sed -n 's/Pages: */ + /p'" ::: *pdf|tr '\n' ' ')
+$find . -name "*.pdf" -exec pdftk {} dump_data output \; | grep NumberOfPages | awk '{s+=$2} END {print s}'
+
+#Rename files utf8:
+$detox -nrv
+$detox -rv -s utf_8 ~/Dokumente/
+$convmv -f iso-8859-15 -t utf-8 -r .
+
+# Check pdf files:
+$qpdf --check test_file.pdf
+$find ./directory_to_scan/ -type f -iname '*.pdf' \( -exec sh -c 'qpdf --check "{}" > /dev/null && echo "{}": OK' \; -o -exec echo "{}": FAILED \; \)
+$find . -type f -iname '*.pdf' \( -exec sh -c 'qpdf --check "{}" > /dev/null && echo "{}": OK' \; -o -exec echo "{}": FAILED \; \)| grep FAILED > FAILED.txt
+
+# Nice OCR (german):
+$find . -printf '%p' -name '*.pdf' -exec ocrmypdf -l deu '{}' '{}' \;
+
+# JPG/PNG -> pdf:
+$convert *.JPG gesamt.pdf
+
+# Compress pictures:
+$find . -name "*.JPG" | xargs jpegoptim -m70 -d ./compressed -p
+
+# Checksum and path:
+$rhash --md5 -p '%h,%p\n' -r /home/
+
+# Delete empty folders:
+$find . -empty -type d -delete
